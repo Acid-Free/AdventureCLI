@@ -1,6 +1,7 @@
 import inquirer from "inquirer";
 import { initializeWorld, printWorld } from "./world.js";
 import { Player, Enemy, Item } from "./entities.js";
+import _ from "lodash";
 
 const promptMove = async () => {
   const response = await inquirer.prompt([
@@ -15,14 +16,32 @@ const promptMove = async () => {
 };
 
 const gameLoop = async (player) => {
+  console.log("Find the fire.");
   while (true) {
+    console.log(player.getPosition());
     printEntity(player);
+    console.log();
     printWorld(player);
-    await move(player);
+    // don't spawn enemy or items if movement is invalid
+    if (!await move(player)) {
+      console.log("You can't go there.");
+      continue;
+    }
 
-    const enemy1 = new Enemy(6, 6, 2, "🐍");
-    printEntity(enemy1);
-    initiateCombat(enemy1, player);
+    // 10% enemy spawn
+    if (_.random(100) > 90) {
+      console.log("You encountered an enemy.");
+      const enemy1 = new Enemy(6, 6, 2, "🐍");
+      printEntity(enemy1);
+      initiateCombat(enemy1, player);
+    }
+    // 10% item spawn chance
+    else if (_.random(100) > 90) {
+      console.log("You found an item.");
+      const item1 = new Item(5, 2, 1, "🍅");
+      printEntity(item1);
+      player.consumeItem(item1);
+    }
   }
 };
 
@@ -73,7 +92,7 @@ const move = async (player) => {
       movement.yOffset = -1;
       break;
   }
-  player.setPosition(movement);
+  return player.setPosition(movement);
 };
 
 const printEntity = (entity) => {
