@@ -1,0 +1,20 @@
+{
+  "name": "adventurecli",
+  "version": "1.0.0",
+  "description": "An adventure RPG game showcasing my vanilla js and node knowledge.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Acid-Free/AdventureCLI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Acid-Free/AdventureCLI/issues"
+  },
+  "homepage": "https://github.com/Acid-Free/AdventureCLI#readme"
+}
