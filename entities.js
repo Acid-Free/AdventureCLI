@@ -1,7 +1,7 @@
 import { mapDimensions } from "./world.js";
 import _ from "lodash-es";
 
-console.log("🧔🏽💀🐾🐍🦴🌲🌳🎄🍅🔥♺");
+// console.log("🧔🏽💀🐾🐍🦴🌲🌳🎄🍅🔥♺");
 
 class Entity {
   #health;
@@ -23,7 +23,7 @@ class Entity {
   get getDefense() {
     return this.#defense;
   }
-  get getEmoji() {
+  get getSprite() {
     return this.#emoji;
   }
   set setHealth(offset) {
@@ -35,7 +35,7 @@ class Entity {
   set setDefense(offset) {
     this.#defense += offset;
   }
-  set setEmoji(emoji) {
+  set setSprite(emoji) {
     this.#emoji = emoji;
   }
 }
@@ -53,7 +53,7 @@ class Player extends Entity {
   }
 
   // returns true if movement is valid, otherwise false
-  setPosition(xOffset, yOffset) {
+  setPosition({ xOffset, yOffset }) {
     this.#posX += xOffset;
     this.#posY += yOffset;
     if (this.#posX < 0 || this.#posX > mapDimensions.width) {

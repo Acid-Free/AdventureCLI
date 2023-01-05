@@ -14,9 +14,39 @@ const promptMove = async () => {
   return response;
 };
 
-const gameLoop = async () => {
-  const moveResult = await promptMove();
+const gameLoop = async (player) => {
+  while (true) {
+    printWorld(player);
+    await move(player);
 
+  }
 };
 
-gameLoop();
+const move = async (player) => {
+  const moveResult = await promptMove();
+  const movement = { xOffset: 0, yOffset: 0 };
+  switch (moveResult.moveDirection) {
+    case "Up":
+      movement.yOffset = 1;
+      break;
+    case "Left":
+      movement.xOffset = -1;
+      break;
+    case "Right":
+      movement.xOffset = 1;
+      break;
+    case "Down":
+      movement.yOffset = -1;
+      break;
+  }
+  player.setPosition(movement);
+};
+
+const startGame = () => {
+  const player = new Player(10, 5, 5, "🧌 ");
+  initializeWorld();
+
+  gameLoop(player);
+};
+
+startGame();
