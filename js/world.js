@@ -27,6 +27,10 @@ class Tile {
     this.#sprite = "🐾";
   }
 
+  get getDiscovered() {
+    return this.#discovered;
+  }
+
   get getSprite() {
     return this.#sprite;
   }
@@ -64,4 +68,9 @@ const printWorld = (player) => {
   }
 };
 
-export { mapDimensions, initializeWorld, printWorld, destinationPos };
+const getCurrentTile = (player) => {
+  const { posX, posY } = player.getPosition();
+  return world[posY][posX];
+};
+
+export { mapDimensions, initializeWorld, printWorld, destinationPos, getCurrentTile };

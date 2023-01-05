@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { initializeWorld, printWorld, destinationPos } from "./world.js";
+import { initializeWorld, printWorld, destinationPos, getCurrentTile } from "./world.js";
 import { Player, Enemy, Item } from "./entities.js";
 import _ from "lodash";
 
@@ -18,7 +18,6 @@ const promptMove = async () => {
 const gameLoop = async (player) => {
   console.log("Find the fire.");
   while (true) {
-    console.log();
     printEntity(player);
     console.log();
     printWorld(player);
@@ -28,25 +27,40 @@ const gameLoop = async (player) => {
       continue;
     }
 
-    // 10% enemy spawn
-    if (_.random(100) > 90) {
-      console.log("You encountered an enemy.");
-      const enemy1 = new Enemy(6, 6, 2, "🐍");
-      printEntity(enemy1);
-      initiateCombat(enemy1, player);
+    const currentTile = getCurrentTile(player);
+    // spawns entities if current tile is undiscovered
+    if (currentTile.getDiscovered === false) {
+      console.log("You discover a new forest.");
+
+      // sets the forest tile as discovered
+      currentTile.setAsDiscovered();
+
+      // 10% enemy spawn
+      if (_.random(100) > 90) {
+        console.log("You encountered an enemy.");
+        const enemy1 = new Enemy(6, 6, 2, "🐍");
+        printEntity(enemy1);
+        initiateCombat(enemy1, player);
+      }
+      // 10% item spawn chance
+      else if (_.random(100) > 90) {
+        console.log("You found an item.");
+        const item1 = new Item(5, 2, 1, "🍅");
+        printEntity(item1);
+        player.consumeItem(item1);
+      }
+      else {
+        console.log("You didn't find a creature or an item.");
+      }
     }
-    // 10% item spawn chance
-    else if (_.random(100) > 90) {
-      console.log("You found an item.");
-      const item1 = new Item(5, 2, 1, "🍅");
-      printEntity(item1);
-      player.consumeItem(item1);
+    else {
+      console.log("You've been here before");
     }
 
     // check if player has reached the destination
     const { posX, posY } = player.getPosition();
     if (posX === destinationPos.posX && posY === destinationPos.posY) {
-      console.log("\nYou found the fire.\n");
+      console.log("You found the fire.\n");
       printWorld(player);
       break;
     }
