@@ -2,8 +2,8 @@ import _ from "lodash";
 
 // width : height
 const mapDimensions = {
-  width: 50,
-  height: 30
+  width: 10,
+  height: 10
 };
 
 const treeSprites = ["🌲", "🌳", "🎄"];
@@ -74,8 +74,11 @@ const burnWorld = (player) => {
       if (playerPosition.posX === x && playerPosition.posY === y) {
         process.stdout.write(player.getSprite);
       }
+      else if (world[y][x].getDiscovered === false)
+        process.stdout.write("🔥");
       else
         process.stdout.write(world[y][x].getSprite);
+
     }
     console.log();
   }
@@ -86,4 +89,4 @@ const getCurrentTile = (player) => {
   return world[posY][posX];
 };
 
-export { mapDimensions, initializeWorld, printWorld, destinationPos, getCurrentTile };
+export { mapDimensions, initializeWorld, printWorld, burnWorld, destinationPos, getCurrentTile };

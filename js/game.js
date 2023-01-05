@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { initializeWorld, printWorld, destinationPos, getCurrentTile } from "./world.js";
+import { initializeWorld, printWorld, burnWorld, destinationPos, getCurrentTile } from "./world.js";
 import { Player, Enemy, Item } from "./entities.js";
 import _ from "lodash";
 
@@ -62,7 +62,7 @@ const gameLoop = async (player) => {
     const { posX, posY } = player.getPosition();
     if (posX === destinationPos.posX && posY === destinationPos.posY) {
       console.log("You found the fire.\n");
-      printWorld(player);
+      burnWorld(player);
       break;
     }
   }
