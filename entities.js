@@ -4,37 +4,55 @@ import _ from "lodash-es";
 // console.log("🧔🏽💀🐾🐍🦴🌲🌳🎄🍅🔥♺");
 
 class Entity {
+  #dead = false;
   #health;
   #attack;
   #defense;
   #emoji;
+
   constructor(health, attack, defense, emoji) {
     this.#health = health;
     this.#attack = attack;
     this.#defense = defense;
     this.#emoji = emoji;
   }
+
   get getHealth() {
     return this.#health;
   }
+
   get getAttack() {
     return this.#attack;
   }
+
   get getDefense() {
     return this.#defense;
   }
+
   get getSprite() {
     return this.#emoji;
   }
+
+  get getDead() {
+    return this.#dead;
+  }
+
   set updateHealth(offset) {
     this.#health += offset;
+    this.#health = Math.max(0, this.#health);
+    if (this.#health === 0) {
+      this.#dead = true;
+    }
   }
+
   set setAttack(offset) {
     this.#attack += offset;
   }
+
   set setDefense(offset) {
     this.#defense += offset;
   }
+
   set setSprite(emoji) {
     this.#emoji = emoji;
   }
@@ -80,7 +98,7 @@ class Player extends Entity {
     // ensures player attacks can't heal the target when attacking
     playerDamage = Math.max(0, playerDamage);
     enemy.updateHealth = -playerDamage;
-    console.log("Player attacks enemy");
+    // console.log("Player attacks enemy");
   }
 }
 
@@ -94,7 +112,7 @@ class Enemy extends Entity {
     // ensures enemy attacks can't heal the target when attacking
     enemyDamage = Math.max(0, enemyDamage);
     player.updateHealth = -enemyDamage;
-    console.log("Enemy attacks player");
+    // console.log("Enemy attacks player");
   }
 }
 

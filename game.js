@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
-import { mapDimensions, initializeWorld, printWorld } from "./world.js";
-import { Enemy, Player } from "./entities.js";
+import { initializeWorld, printWorld } from "./world.js";
+import { Player, Enemy, Item } from "./entities.js";
 
 const promptMove = async () => {
   const response = await inquirer.prompt([
@@ -16,13 +16,44 @@ const promptMove = async () => {
 
 const gameLoop = async (player) => {
   while (true) {
-    printPlayer(player);
+    printEntity(player);
     printWorld(player);
     await move(player);
 
-    const enemy1 = new Enemy(5, 2, 5, "🐍");
-    enemy1.attack(player);
+    const enemy1 = new Enemy(6, 6, 2, "🐍");
+    printEntity(enemy1);
+    initiateCombat(enemy1, player);
   }
+};
+
+const initiateCombat = (entity1, entity2) => {
+  let winner;
+  let loser;
+  let turn = 0;
+  while (turn < 10) {
+    entity1.attack(entity2);
+    // entity 2 attacks if still alive
+    if (!entity2.getDead) {
+      entity2.attack(entity1);
+      // loop breaks if entity 1 is dead
+      if (entity1.getDead) {
+        winner = entity2;
+        loser = entity1;
+        break;
+      }
+    }
+    else {
+      winner = entity1;
+      loser = entity2;
+      break;
+    }
+    ++turn;
+  }
+  if (winner == null)
+    // console.log(`${entity1.getSprite} and ${entity2.getSprite} couldn't beat each other!`);
+    console.log(`${entity1.getSprite} 🟰  ${entity2.getSprite}`);
+  else
+    console.log(`${winner.getSprite} ➡️ ${winner.getSprite}🏆 vs ${loser.getSprite} ➡️ 🦴`);
 };
 
 const move = async (player) => {
@@ -45,9 +76,8 @@ const move = async (player) => {
   player.setPosition(movement);
 };
 
-const printPlayer = (player) => {
-  // console.log(`Player: ${player.getSprite}\nHealth: ${player.getHealth}\nAttack: ${player.getAttack}\nDefense: ${player.getDefense}`);
-  console.log(`${player.getSprite} ➡️ ❤️‍🩹${player.getHealth} | ⚔️ ${player.getAttack} | 🛡️ ${player.getDefense}`);
+const printEntity = (entity) => {
+  console.log(`${entity.getSprite}   ❤️‍🩹${entity.getHealth} | ⚔️ ${entity.getAttack} | 🛡️ ${entity.getDefense}`);
 };
 
 const startGame = () => {
