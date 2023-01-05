@@ -21,6 +21,7 @@ const gameLoop = async (player) => {
     printEntity(player);
     console.log();
     printWorld(player);
+    console.log();
     // don't spawn enemy or items if movement is invalid
     if (!await move(player)) {
       console.log("You can't go there.");
@@ -124,6 +125,7 @@ const printEntity = (entity) => {
 const startGame = () => {
   const player = new Player(10, 5, 5, "🧌 ");
   initializeWorld();
+  getCurrentTile(player).setAsDiscovered();
 
   gameLoop(player);
 };
