@@ -26,7 +26,7 @@ class Entity {
   get getSprite() {
     return this.#emoji;
   }
-  set setHealth(offset) {
+  set updateHealth(offset) {
     this.#health += offset;
   }
   set setAttack(offset) {
@@ -66,6 +66,49 @@ class Player extends Entity {
     }
     return true;
   }
+
+  consumeItem(item) {
+    const itemStats = item.getStats;
+    this.updateHealth = itemStats.health;
+    this.setAttack = itemStats.attack;
+    this.setDefense = itemStats.defense;
+    console.log("Player obtains item stats.");
+  }
+
+  attack(enemy) {
+    let playerDamage = this.getAttack - enemy.getDefense;
+    // ensures player attacks can't heal the target when attacking
+    playerDamage = Math.max(0, playerDamage);
+    enemy.updateHealth = -playerDamage;
+    console.log("Player attacks enemy");
+  }
 }
 
-export { Player };
+class Enemy extends Entity {
+  constructor(health, attack, defense, emoji) {
+    super(health, attack, defense, emoji);
+  }
+
+  attack(player) {
+    let enemyDamage = this.getAttack - player.getDefense;
+    // ensures enemy attacks can't heal the target when attacking
+    enemyDamage = Math.max(0, enemyDamage);
+    player.updateHealth = -enemyDamage;
+    console.log("Enemy attacks player");
+  }
+}
+
+class Item extends Entity {
+  constructor(health, attack, defense, emoji) {
+    super(health, attack, defense, emoji);
+  }
+  getStats() {
+    return {
+      health: this.getHealth,
+      attack: this.getAttack,
+      defense: this.getDefense,
+    };
+  }
+}
+
+export { Player, Enemy, Item };
