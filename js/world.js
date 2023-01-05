@@ -34,6 +34,8 @@ class Tile {
 
 // creates a world array with width and height dimensions 
 const world = [...Array(mapDimensions.height)].map(e => Array(mapDimensions.width));
+// sets the position to upper right corner (quadrant 1)
+const destinationPos = { posX: mapDimensions.width - 1, posY: mapDimensions.height - 1 };
 
 // world[i][j] => world[y][x]
 const initializeWorld = () => {
@@ -43,9 +45,7 @@ const initializeWorld = () => {
     }
   }
 
-  // sets the position to upper right corner (quadrant 1)
-  const destinationPos = { width: mapDimensions.width - 1, height: mapDimensions.height - 1 };
-  world[destinationPos.height][destinationPos.width].setAsDestination();
+  world[destinationPos.posY][destinationPos.posX].setAsDestination();
 };
 
 // uses quadrant 1 for view (data structure uses quadrant 4)
@@ -64,4 +64,4 @@ const printWorld = (player) => {
   }
 };
 
-export { mapDimensions, initializeWorld, printWorld };
+export { mapDimensions, initializeWorld, printWorld, destinationPos };

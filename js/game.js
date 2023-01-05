@@ -1,5 +1,5 @@
 import inquirer from "inquirer";
-import { initializeWorld, printWorld } from "./world.js";
+import { initializeWorld, printWorld, destinationPos } from "./world.js";
 import { Player, Enemy, Item } from "./entities.js";
 import _ from "lodash";
 
@@ -18,7 +18,7 @@ const promptMove = async () => {
 const gameLoop = async (player) => {
   console.log("Find the fire.");
   while (true) {
-    console.log(player.getPosition());
+    console.log();
     printEntity(player);
     console.log();
     printWorld(player);
@@ -41,6 +41,14 @@ const gameLoop = async (player) => {
       const item1 = new Item(5, 2, 1, "🍅");
       printEntity(item1);
       player.consumeItem(item1);
+    }
+
+    // check if player has reached the destination
+    const { posX, posY } = player.getPosition();
+    if (posX === destinationPos.posX && posY === destinationPos.posY) {
+      console.log("\nYou found the fire.\n");
+      printWorld(player);
+      break;
     }
   }
 };
