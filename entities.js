@@ -74,23 +74,23 @@ class Player extends Entity {
   setPosition({ xOffset, yOffset }) {
     this.#posX += xOffset;
     this.#posY += yOffset;
-    if (this.#posX < 0 || this.#posX > mapDimensions.width) {
-      this.#posX = _.clamp(this.#posX, 0, mapDimensions.width);
+    if (this.#posX < 0 || this.#posX > mapDimensions.width - 1) {
+      this.#posX = _.clamp(this.#posX, 0, mapDimensions.width - 1);
       return false;
     }
-    if (this.#posY < 0 || this.#posY > mapDimensions.height) {
-      this.#posY = _.clamp(this.#posY, 0, mapDimensions.height);
+    if (this.#posY < 0 || this.#posY > mapDimensions.height - 1) {
+      this.#posY = _.clamp(this.#posY, 0, mapDimensions.height - 1);
       return false;
     }
     return true;
   }
 
   consumeItem(item) {
-    const itemStats = item.getStats;
+    const itemStats = item.getStats();
     this.updateHealth = itemStats.health;
     this.setAttack = itemStats.attack;
     this.setDefense = itemStats.defense;
-    console.log("Player obtains item stats.");
+    console.log("You consume the item.");
   }
 
   attack(enemy) {
