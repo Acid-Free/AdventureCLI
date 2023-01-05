@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/Acid-Free/AdventureCLI/issues"
   },
-  "homepage": "https://github.com/Acid-Free/AdventureCLI#readme"
+  "homepage": "https://github.com/Acid-Free/AdventureCLI#readme",
+  "dependencies": {
+    "inquirer": "^9.1.4",
+    "lodash-es": "^4.17.21"
+  },
+  "type": "module"
 }
