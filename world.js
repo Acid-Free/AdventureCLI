@@ -2,8 +2,8 @@ import _ from "lodash";
 
 // width : height
 const mapDimensions = {
-  width: 30,
-  height: 20
+  width: 10,
+  height: 5
 };
 
 const treeSprites = ["🌲", "🌳", "🎄"];

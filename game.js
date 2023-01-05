@@ -1,6 +1,6 @@
 import inquirer from "inquirer";
 import { mapDimensions, initializeWorld, printWorld } from "./world.js";
-import { Player } from "./entities.js";
+import { Enemy, Player } from "./entities.js";
 
 const promptMove = async () => {
   const response = await inquirer.prompt([
@@ -16,9 +16,12 @@ const promptMove = async () => {
 
 const gameLoop = async (player) => {
   while (true) {
+    printPlayer(player);
     printWorld(player);
     await move(player);
 
+    const enemy1 = new Enemy(5, 2, 5, "🐍");
+    enemy1.attack(player);
   }
 };
 
@@ -40,6 +43,11 @@ const move = async (player) => {
       break;
   }
   player.setPosition(movement);
+};
+
+const printPlayer = (player) => {
+  // console.log(`Player: ${player.getSprite}\nHealth: ${player.getHealth}\nAttack: ${player.getAttack}\nDefense: ${player.getDefense}`);
+  console.log(`${player.getSprite} ➡️ ❤️‍🩹${player.getHealth} | ⚔️ ${player.getAttack} | 🛡️ ${player.getDefense}`);
 };
 
 const startGame = () => {
